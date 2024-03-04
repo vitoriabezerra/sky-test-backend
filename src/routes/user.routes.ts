@@ -7,9 +7,12 @@ const router = Router();
 // Defining the routes
 router.post("/signup", userController.createNewUser);
 router.post("/signin", userController.autheticateUser);
-router.get("/buscar-usuario", authMiddleware.checkTokenAndUser, (req, res) => {
-    // All validations are done in the middleware, since we dont need to update any info, we wont need a controller and service
-    res.json({ req });
-});
+router.get(
+    "/buscar-usuario/:id",
+    authMiddleware.checkTokenAndUser,
+    (req: any, res: any) => {
+        res.json(req.user);
+    }
+);
 
 export default router;
