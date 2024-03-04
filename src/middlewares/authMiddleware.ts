@@ -13,17 +13,14 @@ export async function checkTokenAndUser(req: any, res: any, next: any) {
     const userId = req.params.id;
 
     try {
-        console.log("teste", userId);
-        const user = await User.findOne({ id: userId });
 
-        console.log(token + " / " + user.token);
+        const user = await User.findOne({ id: userId });
 
         if (!user) {
             return res.status(404).json({ mensagem: "Usuário não encontrado" });
         }
 
         if (user.token !== token) {
-            console.log("aqui aqui");
             return res.status(401).json({ mensagem: "Não autorizado" });
         }
 
