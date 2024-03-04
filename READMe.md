@@ -11,3 +11,17 @@ O Sky Test Backend é uma aplicação Node.js com MongoDB e TypeScript. Esta apl
 Certifique-se de ter o Node.js instalado em seu sistema
 
 ## Clonando o Repositório
+```bash
+git clone https://github.com/vitoriabezerra/sky-test-backend.git)https://github.com/vitoriabezerra/sky-test-backend.git
+```
+
+Installe as dependências
+```bash
+npm install
+```
+
+Inicie o projeto
+```bash
+npm start
+```
+
