@@ -1,5 +1,22 @@
 const mongoose = require("mongoose");
 
+export interface IUser {
+    id?: string; // O '?' indica que o campo é opcional
+    nome: string;
+    email: string;
+    senha: string;
+    telefones: IPhone[];
+    data_criacao?: Date;
+    data_atualizacao?: Date;
+    ultimo_login?: Date;
+    token?: string;
+}
+
+interface IPhone {
+    numero: string;
+    ddd: string;
+}
+
 const PhoneSchema = new mongoose.Schema({
     numero: {
         type: String,
@@ -32,15 +49,15 @@ const UserSchema = new mongoose.Schema(
         telefones: [PhoneSchema],
         data_criacao: {
             type: Date,
-            default: Date.now,
+            required: true,
         },
         data_atualizacao: {
             type: Date,
-            default: Date.now,
+            required: true,
         },
         ultimo_login: {
             type: Date,
-            default: Date.now, // same as data_criacao
+            required: true,
         },
         token: {
             type: String,
@@ -52,6 +69,6 @@ const UserSchema = new mongoose.Schema(
     }
 );
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("Users", UserSchema);
 
 export default User;
