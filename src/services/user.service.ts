@@ -57,9 +57,16 @@ export async function authUser(email: string, password: string) {
         // If the user existes and the password is correct, returns the user
         if (userFound && (await verifyPassword(password, userFound.senha))) {
             // returns the user Information and changes the last login datetime.
+            const now = new Date ()
             const updatedUser = await User.findOneAndUpdate(
                 { id: userFound.id },
-                { $set: { ultimo_login: new Date() } },
+                { 
+                    $set: { 
+                      ultimo_login: now, 
+                      ultima_atualizacao: now,
+                      token: uuidv4()
+                    } 
+                  },
                 { new: true }
             );
 

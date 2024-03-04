@@ -1,6 +1,5 @@
 import moment from "moment";
-
-const User = require("../models/userModel"); // Substitua pelo caminho correto do seu modelo de usuário
+import User from "../models/user.model";
 
 export async function checkTokenAndUser(req: any, res: any, next: any) {
     const bearerHeader = req.headers["authorization"];
