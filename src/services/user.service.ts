@@ -2,13 +2,24 @@ import User, { IUser } from "../models/user.model";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
-// number of salts for hashing
-const saltRounds = 10;
-
 async function hashPassword(password: string): Promise<string> {
+    // number of salts for hashing
+    const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
     return bcrypt.hash(password, salt);
+}
+
+async function verifyPassword(
+    password: string,
+    hash: string
+): Promise<boolean> {
+    try {
+        // If they coincide, returns true
+        return await bcrypt.compare(password, hash);
+    } catch (error) {
+        throw new Error("Usuário e/ou senha inválidos");
+    }
 }
 
 export async function createUser(user: IUser) {
@@ -31,10 +42,36 @@ export async function createUser(user: IUser) {
         }
         // Se não houver usuário existente com o mesmo e-mail, cria um novo usuário
         const response = await User.create(newUser);
-        console.log("Usuário criado com sucesso", response);
         return response;
     } catch (error) {
         console.error("Erro ao criar usuário:", error);
-        throw error; // Relança o erro para ser tratado pelo chamador da função
+        throw error;
     }
 }
+
+export async function authUser(email: string, password: string) {
+    try {
+        // Check if user existes on dataBase
+        const userFound: IUser = await User.findOne({ email: email });
+
+        // If the user existes and the password is correct, returns the user
+        if (userFound && (await verifyPassword(password, userFound.senha))) {
+            // returns the user Information and changes the last login datetime.
+            const updatedUser = await User.findOneAndUpdate(
+                { id: userFound.id },
+                { $set: { ultimo_login: new Date() } },
+                { new: true }
+            );
+
+            // Retorna as informações atualizadas do usuário
+            return updatedUser;
+        } else {
+            throw new Error("Usuário e/ou senha inválidos");
+        }
+    } catch (error) {
+        console.error("Erro", error);
+        throw error;
+    }
+}
+
+export async function searchUser(email: string, password: string) {}

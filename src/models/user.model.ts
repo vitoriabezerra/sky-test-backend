@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 export interface IUser {
-    id?: string; // O '?' indica que o campo é opcional
+    id?: string;
     nome: string;
     email: string;
     senha: string;
