@@ -7,6 +7,7 @@ export async function createUser(user: IUser) {
         const existingUser = await User.findOne({ email: user.email });
         const teste: IUser = {
             ...user,
+            id: uuidv4(),
             data_criacao: new Date(),
             data_atualizacao: new Date(),
             ultimo_login: new Date(),

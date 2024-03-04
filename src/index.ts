@@ -23,7 +23,7 @@ const run = async () => {
     console.log("Connected to myDB");
 };
 
-// Conect into the datadase and start application
+// Conect into the datadase and run application
 run().then(() => {
     app.listen(port, () => {
         console.log(`Server running on http://localhost:${port}`);
