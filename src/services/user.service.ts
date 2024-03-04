@@ -13,25 +13,26 @@ async function hashPassword(password: string): Promise<string> {
 
 export async function createUser(user: IUser) {
     try {
-        // Check if the e-mail is new
+        // Check if the e-mail is new before creating
         const existingUser = await User.findOne({ email: user.email });
         const passwordHash = await hashPassword(user.senha);
-        const teste: IUser = {
+        const newUser: IUser = {
             ...user,
             id: uuidv4(),
+            senha: passwordHash,
             data_criacao: new Date(),
             data_atualizacao: new Date(),
             ultimo_login: new Date(),
             token: uuidv4(),
         };
         if (existingUser) {
-            // Lança um erro se um usuário com esse e-mail já existir
-            throw new Error("Usuário com esse e-mail já existe");
+            // Throws an error if the email already existes
+            throw new Error("E-mail já existente");
         }
         // Se não houver usuário existente com o mesmo e-mail, cria um novo usuário
-        const newUser = await User.create(teste);
-        console.log("Usuário criado com sucesso", newUser);
-        return newUser;
+        const response = await User.create(newUser);
+        console.log("Usuário criado com sucesso", response);
+        return response;
     } catch (error) {
         console.error("Erro ao criar usuário:", error);
         throw error; // Relança o erro para ser tratado pelo chamador da função
