@@ -1,5 +1,4 @@
-// Importe as funções necessárias do express-validator
-const { body, validationResult } = require("express-validator");
+import { body, validationResult } from "express-validator";
 
 // Middleware for signup validation
 export const validateSignup = [
