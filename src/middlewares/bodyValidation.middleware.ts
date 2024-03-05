@@ -1,7 +1,7 @@
 // Importe as funções necessárias do express-validator
 const { body, validationResult } = require("express-validator");
 
-// Middleware de validação para sign up
+// Middleware for signup validation
 export const validateSignup = [
     body("nome").not().isEmpty().withMessage("O nome é obrigatório"),
     body("email").isEmail().withMessage("Insira um e-mail válido"),
@@ -26,7 +26,7 @@ export const validateSignup = [
     },
 ];
 
-// Middleware de validação para signin
+// Middleware for sign in validation
 export const validateSignin = [
     body("email").isEmail().withMessage("Insira um e-mail válido"),
     body("senha").not().isEmpty().withMessage("A senha é obrigatória"),

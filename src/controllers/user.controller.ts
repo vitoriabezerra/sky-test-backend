@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as userService from "../services/user.service";
 
+// Create new user
 export async function createNewUser(req: Request, res: Response) {
     try {
         const newUser = await userService.createUser(req.body);
@@ -22,6 +23,7 @@ export async function createNewUser(req: Request, res: Response) {
     }
 }
 
+// Authenticate usar with email and password
 export async function autheticateUser(req: Request, res: Response) {
     const { email, senha } = req.body;
 

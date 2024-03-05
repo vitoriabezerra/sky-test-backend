@@ -13,23 +13,24 @@ export async function checkTokenAndUser(req: any, res: any, next: any) {
     const userId = req.params.id;
 
     try {
-
         const user = await User.findOne({ id: userId });
 
+        // If the user does not existes in the data base, returns not found
         if (!user) {
             return res.status(404).json({ mensagem: "Usuário não encontrado" });
         }
 
+        // If the user existes but the token does not match, the request is not authorized
         if (user.token !== token) {
             return res.status(401).json({ mensagem: "Não autorizado" });
         }
 
-        // If last login is more than 30 minutes ago
+        // If last login is more than 30 minutes ago, the session is invalid
         if (user.ultimo_login < moment().subtract(30, "minutes").toDate()) {
             return res.status(401).json({ mensagem: "Sessão inválida" });
         }
 
-        req.user = user; // Atribui o usuário encontrado ao objeto req para uso posterior
+        req.user = user; //returns the user
         next();
     } catch (error) {
         console.error(error);
