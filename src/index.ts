@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.routes";
 import mongoose from "mongoose";
 
+dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
-const uri: string = `mongodb+srv://vitooriabezerra:isXWoKcJjzJsaGpi@cluster0.kwcotdp.mongodb.net/Test-User?retryWrites=true&w=majority&appName=Cluster0`;
+const uri = process.env.MONGO_URI as string;
 
 dotenv.config();
 
@@ -19,15 +20,14 @@ app.get("/", (res: Response) => {
 app.use("", userRoutes);
 
 const run = async () => {
+    console.log(uri);
     await mongoose.connect(uri);
-    // eslint-disable-next-line no-console
     console.log("Connected to myDB");
 };
 
 // Conect into the datadase and run application
 run().then(() => {
     app.listen(port, () => {
-        // eslint-disable-next-line no-console
         console.log(`Server running on http://localhost:${port}`);
     });
 });
