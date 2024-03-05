@@ -1,7 +1,11 @@
 import moment from "moment";
 import User from "../models/user.model";
 
-export async function checkTokenAndUser(req: any, res: any, next: any) {
+export async function checkTokenAndUser(
+    req: any,
+    res: any,
+    next: any
+) {
     const bearerHeader = req.headers["authorization"];
 
     // If the token is not passed

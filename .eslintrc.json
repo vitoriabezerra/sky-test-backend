@@ -9,12 +9,14 @@
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest",
+        "ecmaVersion": 6,
         "sourceType": "module"
     },
     "plugins": [
         "@typescript-eslint"
     ],
-    "rules": {
+    "rules": {  
+        "arrow-parens": ["error", "always"],
+        "no-explicit-any": "off"
     }
 }
