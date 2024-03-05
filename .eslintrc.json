@@ -17,6 +17,7 @@
     ],
     "rules": {  
         "arrow-parens": ["error", "always"],
-        "no-explicit-any": "off"
+        "no-explicit-any": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }
