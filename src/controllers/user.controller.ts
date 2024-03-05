@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as userService from "../services/user.service";
 
 // Create new user
-export async function createNewUser(req: Request, res: Response) {
+export const createNewUser = async (req: Request, res: Response) => {
     try {
         const newUser = await userService.createUser(req.body);
         res.status(201).json(newUser);
@@ -21,10 +21,10 @@ export async function createNewUser(req: Request, res: Response) {
             mensagem: "Erro desconhecido ao criar usuário",
         });
     }
-}
+};
 
 // Authenticate usar with email and password
-export async function autheticateUser(req: Request, res: Response) {
+export const autheticateUser = async (req: Request, res: Response) => {
     const { email, senha } = req.body;
 
     try {
@@ -47,4 +47,4 @@ export async function autheticateUser(req: Request, res: Response) {
             mensagem: "Erro ao autenticar usuário",
         });
     }
-}
+};
