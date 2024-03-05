@@ -16,6 +16,13 @@ Certifique-se de ter o Node.js instalado em seu sistema
 git clone https://github.com/vitoriabezerra/sky-test-backend.git
 ```
 
+Crie um arquivo .env na raíz do projeto
+
+```.env
+PORT=3000
+MONGODB_URI=sua-chave-de-conexao-do-mongodb
+```
+
 Installe as dependências
 
 ```bash
