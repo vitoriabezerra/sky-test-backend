@@ -5,6 +5,7 @@ const secretKey = "chave_secreta";
 
 export const checkTokenAndUser = async (req: any, res: any, next: any) => {
     const bearerHeader = req.headers["authorization"];
+    const userId = req.params.id;
 
     // Se o token não for passado
     if (!bearerHeader) {
@@ -18,11 +19,10 @@ export const checkTokenAndUser = async (req: any, res: any, next: any) => {
 
         // Verifies if decode is an object and has the property email
         if (typeof decoded === "object" && "email" in decoded) {
-            const userEmail = decoded.email;
-
             // Now we can search for the user
-            const user = await User.findOne({ email: userEmail });
+            const user = await User.findOne({ id: userId });
 
+            // if the user is not found
             if (!user) {
                 return res
                     .status(404)
