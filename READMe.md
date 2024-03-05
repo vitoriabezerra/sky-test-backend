@@ -78,10 +78,10 @@ npm start
 
 **Autenticação:** A autenticação é realizada via Bearer Token. O mesmo token é gerado durante a criação ou login do usuário.
 
-**Validade do Token:** Se o login ocorreu há mais de 30 minutos, será necessário fazer o login novamente para obter um token válido.
+**Validade do Token:** Se o login/criação ocorreu há mais de 30 minutos, será necessário fazer o login novamente para obter um token válido.
 
 Exemplo:
 
 ```bash
-curl -X GET -H "Authorization: Bearer SEU_TOKEN_AQUI" http://seu-servidor.com/buscar-usuario/123
+curl -X GET -H "Authorization: Bearer SEU_TOKEN_AQUI" http://localhost3000.com/buscar-usuario/123
 ```
