@@ -19,6 +19,11 @@ app.get("/", (res: Response) => {
 
 app.use("", userRoutes);
 
+// Middleware catch-all for all not routes
+app.use((res:any) => {
+    res.status(404).send({ messagem: "Rota não encontrada" });
+});
+
 const run = async () => {
     console.log(uri);
     await mongoose.connect(uri);
