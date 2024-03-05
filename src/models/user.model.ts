@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 export interface IUser {
-    id?: string;
+    id: string;
     nome: string;
     email: string;
     senha: string;

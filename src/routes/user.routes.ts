@@ -19,9 +19,7 @@ router.post(
 router.get(
     "/buscar-usuario/:id",
     authMiddleware.checkTokenAndUser,
-    (req: any, res: any) => {
-        res.json(req.user);
-    }
+    userController.searchUser
 );
 
 export default router;

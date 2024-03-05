@@ -1,11 +1,9 @@
-import User from "../models/user.model";
 import jwt from "jsonwebtoken";
 
 const secretKey = "chave_secreta";
 
 export const checkTokenAndUser = async (req: any, res: any, next: any) => {
     const bearerHeader = req.headers["authorization"];
-    const userId = req.params.id;
 
     // Se o token não for passado
     if (!bearerHeader) {
@@ -19,17 +17,7 @@ export const checkTokenAndUser = async (req: any, res: any, next: any) => {
 
         // Verifies if decode is an object and has the property email
         if (typeof decoded === "object" && "email" in decoded) {
-            // Now we can search for the user
-            const user = await User.findOne({ id: userId });
-
-            // if the user is not found
-            if (!user) {
-                return res
-                    .status(404)
-                    .json({ mensagem: "Usuário não encontrado" });
-            }
-
-            req.user = user;
+            req.email = decoded.email;
             next();
         } else {
             return res.status(401).json({ mensagem: "Não autorizado" });

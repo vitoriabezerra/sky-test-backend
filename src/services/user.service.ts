@@ -28,10 +28,10 @@ const verifyPassword = async (
     }
 };
 
-const generateToken = (email: string) => {
+const generateToken = (userId: string) => {
     // Define token payload
     const payload = {
-        email: email,
+        userId: userId,
     };
 
     // The token is valid for 30 minutes only
@@ -49,14 +49,15 @@ export const createUser = async (user: IUser) => {
         // Check if the e-mail is new before creating
         const existingUser = await User.findOne({ email: user.email });
         const passwordHash = await hashPassword(user.senha);
+        const userId = uuidv4();
         const newUser: IUser = {
             ...user,
-            id: uuidv4(),
+            id: userId,
             senha: passwordHash,
             data_criacao: new Date(),
             data_atualizacao: new Date(),
             ultimo_login: new Date(),
-            token: generateToken(user.email),
+            token: generateToken(userId),
         };
         if (existingUser) {
             // Throws an error if the email already existes
@@ -75,7 +76,7 @@ export const createUser = async (user: IUser) => {
 export const authUser = async (email: string, password: string) => {
     try {
         // Check if user existes on dataBase
-        const userFound: IUser = await User.findOne({ email: email });
+        const userFound = await User.findOne({ email: email });
 
         // If the user existes and the password is correct, returns the user
         if (userFound && (await verifyPassword(password, userFound.senha))) {
@@ -87,7 +88,7 @@ export const authUser = async (email: string, password: string) => {
                     $set: {
                         data_atualizacao: now,
                         ultimo_login: now,
-                        token: generateToken(userFound.email),
+                        token: generateToken(userFound.id),
                     },
                 },
                 { new: true }
@@ -98,6 +99,23 @@ export const authUser = async (email: string, password: string) => {
         } else {
             throw new Error("Usuário e/ou senha inválidos");
         }
+    } catch (error) {
+        console.error("Erro", error);
+        throw error;
+    }
+};
+
+export const searchUser = async (userId: string) => {
+    try {
+        // Check if user existes on dataBase
+        const userFound = await User.findOne({ id: userId });
+
+        // if the user is not found
+        if (!userFound) {
+            throw new Error("Usuário não encontrado");
+        }
+
+        return userFound;
     } catch (error) {
         console.error("Erro", error);
         throw error;
