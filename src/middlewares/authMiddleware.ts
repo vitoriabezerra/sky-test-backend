@@ -16,8 +16,8 @@ export const checkTokenAndUser = async (req: any, res: any, next: any) => {
         const decoded = jwt.verify(token, secretKey);
 
         // Verifies if decode is an object and has the property email
-        if (typeof decoded === "object" && "email" in decoded) {
-            req.email = decoded.email;
+        if (typeof decoded === "object" && "userId" in decoded) {
+            req.userId = decoded.userId;
             next();
         } else {
             return res.status(401).json({ mensagem: "Não autorizado" });
@@ -33,7 +33,7 @@ export const checkTokenAndUser = async (req: any, res: any, next: any) => {
         }
         // Other errors
         else {
-            sendError(res, "Erro ao verificar o token", 500);
+            sendError(res, "Não autorizado", 401);
         }
     }
 };
