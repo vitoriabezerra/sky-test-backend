@@ -1,11 +1,7 @@
 import moment from "moment";
 import User from "../models/user.model";
 
-export async function checkTokenAndUser(
-    req: any,
-    res: any,
-    next: any
-) {
+export const checkTokenAndUser = async (req: any, res: any, next: any) => {
     const bearerHeader = req.headers["authorization"];
 
     // If the token is not passed
@@ -40,4 +36,4 @@ export async function checkTokenAndUser(
         console.error(error);
         res.status(500).json({ mensagem: "Erro interno do servidor" });
     }
-}
+};

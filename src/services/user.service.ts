@@ -2,27 +2,30 @@ import User, { IUser } from "../models/user.model";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
-async function hashPassword(password: string): Promise<string> {
+// Hash the password
+const hashPassword = async (password: string): Promise<string> => {
     // number of salts for hashing
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
     return bcrypt.hash(password, salt);
-}
+};
 
-async function verifyPassword(
+// Compare the the password with the hash
+const verifyPassword = async (
     password: string,
     hash: string
-): Promise<boolean> {
+): Promise<boolean> => {
     try {
         // If they coincide, returns true
         return await bcrypt.compare(password, hash);
     } catch (error) {
         throw new Error("Usuário e/ou senha inválidos");
     }
-}
+};
 
-export async function createUser(user: IUser) {
+// Create the user in the data base
+export const createUser = async (user: IUser) => {
     try {
         // Check if the e-mail is new before creating
         const existingUser = await User.findOne({ email: user.email });
@@ -47,9 +50,10 @@ export async function createUser(user: IUser) {
         console.error("Erro ao criar usuário:", error);
         throw error;
     }
-}
+};
 
-export async function authUser(email: string, password: string) {
+// Sign in for user
+export const authUser = async (email: string, password: string) => {
     try {
         // Check if user existes on dataBase
         const userFound: IUser = await User.findOne({ email: email });
@@ -79,6 +83,4 @@ export async function authUser(email: string, password: string) {
         console.error("Erro", error);
         throw error;
     }
-}
-
-export async function searchUser() {}
+};
