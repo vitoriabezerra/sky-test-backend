@@ -1,6 +1,10 @@
 import User, { IUser } from "../models/user.model";
+import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
+
+// This is an example, it should not go directly into the code
+const secretKey = "chave_secreta";
 
 // Hash the password
 const hashPassword = async (password: string): Promise<string> => {
@@ -24,6 +28,21 @@ const verifyPassword = async (
     }
 };
 
+const generateToken = (email: string) => {
+    // Define token payload
+    const payload = {
+        email: email,
+    };
+
+    // The token is valid for 30 minutes only
+    const options = { expiresIn: "30min" };
+
+    // Generates the token
+    const token = jwt.sign(payload, secretKey, options);
+
+    return token;
+};
+
 // Create the user in the data base
 export const createUser = async (user: IUser) => {
     try {
@@ -37,7 +56,7 @@ export const createUser = async (user: IUser) => {
             data_criacao: new Date(),
             data_atualizacao: new Date(),
             ultimo_login: new Date(),
-            token: uuidv4(),
+            token: generateToken(user.email),
         };
         if (existingUser) {
             // Throws an error if the email already existes
@@ -68,7 +87,7 @@ export const authUser = async (email: string, password: string) => {
                     $set: {
                         data_atualizacao: now,
                         ultimo_login: now,
-                        token: uuidv4(),
+                        token: generateToken(userFound.email),
                     },
                 },
                 { new: true }
