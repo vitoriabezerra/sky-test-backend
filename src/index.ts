@@ -25,7 +25,6 @@ app.use((res:any) => {
 });
 
 const run = async () => {
-    console.log(uri);
     await mongoose.connect(uri);
     console.log("Connected to myDB");
 };
